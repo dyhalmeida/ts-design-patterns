@@ -1,7 +1,13 @@
 export class Client {
 
-  constructor(private email: string) {
-    this.email = email
+  private _email: string
+
+  constructor(email: string) {
+    this._email = email
+  }
+
+  get email(): string {
+    return this._email
   }
 
   create(): void {
@@ -18,11 +24,6 @@ export class Client {
 
   delete() {
 
-  }
-
-  sendEmail(): boolean {
-    console.log('Enviando e-mail para', this.email)
-    return true
   }
 
 }

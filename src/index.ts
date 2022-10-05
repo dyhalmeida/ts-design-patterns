@@ -102,10 +102,46 @@ class UberTransport implements ITransportFactory {
 }
 
 /**
+ * The commercial, signed another contract with the new company Lime
+ * and now we also have to have scooters and drones.
+ */
+class Scooters implements ILandVehicle {
+  startRoute(): void {
+    this.getCargo()
+    console.log('Iniciando trajeto com patinete...')
+  }
+  getCargo(): void {
+    console.log('Estamos prontos!')
+  }
+}
+
+class Drones implements IAircraftVehicle {
+  startRoute(): void {
+    this.checkWind()
+    this.getCargo()
+    console.log('Hélices ligadas, iniciando vôo')
+  }
+  getCargo(): void {
+    console.log('Camêra ligada, estamos prontos!')
+  }
+  checkWind(): void {
+    console.log('Ventos a 5km/h')
+  }
+}
+
+class LimeTransport implements ITransportFactory {
+  createTransportVehicle(): ILandVehicle {
+    return new Scooters()
+  }
+  createTransportAircraft(): IAircraftVehicle {
+    return new Drones()
+  }
+}
+
+/**
  * Client implementation
  */
 class Client {
-
   private vehicle: ILandVehicle
   private aircraft: IAircraftVehicle
 
@@ -118,18 +154,17 @@ class Client {
     this.vehicle.startRoute()
     this.aircraft.startRoute()
   }
-
 }
 
 enum TypesOfTransport {
   UBER,
-  NINE
+  NINE,
+  LIME
 }
-
 
 function main() {
 
-  const currentCompany = TypesOfTransport.UBER
+  const currentCompany = TypesOfTransport.LIME
   let transport: ITransportFactory
 
   try {
@@ -138,6 +173,8 @@ function main() {
       transport = new NineNineTransport()
     } else if (currentCompany === TypesOfTransport.UBER) {
       transport = new UberTransport()
+    } else if (currentCompany === TypesOfTransport.LIME) {
+      transport = new LimeTransport()
     } else {
       throw new Error("Tipo de transporte inávlido");
     }
